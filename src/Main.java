@@ -1,69 +1,83 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("=== GROCERY STORE ===\n");
+        // 1. Welcome
+        System.out.println("=== GROCERY STORE MANAGEMENT ===");
+        System.out.println();
 
-        // CREATE OBJECTS WITH CORRECT CONSTRUCTORS
+        // 2. Create objects (5+ objects)
+        Product apple = new Product("P100", "Apple", 1.99, 100);
+        Product milk = new Product("P101", "Milk", 3.49, 50);
+        Product bread = new Product("P102", "Bread", 2.99, 40);
 
-        // Product: 4 parameters
-        Product p1 = new Product("P001", "Apple", 1.99, 100);
-        Product p2 = new Product("P002", "Milk", 3.49, 50);
+        Customer john = new Customer("C100", "John", 200.0, "john@email.com");
+        Customer jane = new Customer("C101", "Jane", 600.0, "jane@email.com");
 
-        // Customer: 4 parameters  
-        Customer c1 = new Customer("C001", "John", 200.0, "john@email.com");
-        Customer c2 = new Customer("C002", "Jane", 600.0, "jane@email.com");
+        Sale sale1 = new Sale("S100", "John", 0.0, "2024-03-25", "Pending");
+        Sale sale2 = new Sale("S101", "Jane", 0.0, "2024-03-26", "Pending");
 
-        // Sale: 5 parameters (includes date)
-        Sale s1 = new Sale("S001", "John", 0.0, "2024-03-25", "Pending");
+        // 3. Show all objects
+        System.out.println("--- ALL OBJECTS ---");
+        System.out.println(apple);
+        System.out.println(milk);
+        System.out.println(bread);
+        System.out.println(john);
+        System.out.println(jane);
+        System.out.println(sale1);
+        System.out.println(sale2);
+        System.out.println();
 
-        // SHOW OBJECTS
-        System.out.println("--- OBJECTS ---");
-        System.out.println(p1);
-        System.out.println(p2);
-        System.out.println(c1);
-        System.out.println(c2);
-        System.out.println(s1);
+        // 4. Test getters
+        System.out.println("--- GETTERS ---");
+        System.out.println("Apple price: " + apple.getPrice() + "tg");
+        System.out.println("Milk stock: " + milk.getStockQuantity());
+        System.out.println("John's email: " + john.getEmail());
+        System.out.println("Sale 1 date: " + sale1.getDate());
+        System.out.println();
 
-        // TEST GETTERS
-        System.out.println("\n--- GETTERS ---");
-        System.out.println("Product 1 Name: " + p1.getName());
-        System.out.println("Product 1 Price: $" + p1.getPrice());
-        System.out.println("Customer 1 Email: " + c1.getEmail());
-        System.out.println("Sale 1 Date: " + s1.getDate());  // Testing date getter
-        System.out.println("Sale 1 Status: " + s1.getStatus());
+        // 5. Test setters
+        System.out.println("--- SETTERS ---");
+        apple.setPrice(2.49);
+        john.setName("John Smith");
+        sale1.setDate("2024-03-27");
+        System.out.println("Updated apple: " + apple);
+        System.out.println("Updated john: " + john);
+        System.out.println("Updated sale1: " + sale1);
+        System.out.println();
 
-        // TEST SETTERS
-        System.out.println("\n--- SETTERS ---");
-        p1.setPrice(2.49);
-        c1.setName("John Smith");
-        s1.setDate("2024-03-26");  // Testing date setter
-        s1.setStatus("Processing");
-
-        System.out.println("Updated Product 1: " + p1);
-        System.out.println("Updated Sale 1: " + s1);
-
-        // TEST METHODS
-        System.out.println("\n--- METHODS ---");
+        // 6. Test methods
+        System.out.println("--- METHODS ---");
 
         // Product methods
-        System.out.println("Is Apple in stock? " + p1.isInStock());
-        p1.applyDiscount(15);
-        System.out.println("Apple price after 15% discount: $" + p1.getPrice());
+        System.out.println("Is bread in stock? " + bread.isInStock());
+        milk.applyDiscount(10);
+        System.out.println("Milk after 10% discount: " + milk.getPrice() + "tg");
 
         // Customer methods
-        c1.addPurchase(100.0);
-        System.out.println("Is John VIP? " + c1.isVIP());
+        john.addPurchase(100.0);
+        System.out.println("Is John VIP? " + john.isVIP());
+        System.out.println("Is Jane VIP? " + jane.isVIP());
 
         // Sale methods
-        s1.addItem(10.0);
-        s1.addItem(5.0);
-        s1.completeSale();
+        sale1.addItem(apple.getPrice());
+        sale1.addItem(milk.getPrice());
+        sale1.completeSale();
 
-        // FINAL STATE
-        System.out.println("\n--- FINAL ---");
-        System.out.println(p1);
-        System.out.println(c1);
-        System.out.println(s1);
+        sale2.addItem(15.0);
+        sale2.addItem(8.5);
 
-        System.out.println("\n=== DONE ===");
+        // 7. Final state
+        System.out.println();
+        System.out.println("--- FINAL STATE ---");
+        System.out.println(apple);
+        System.out.println(milk);
+        System.out.println(bread);
+        System.out.println(john);
+        System.out.println(jane);
+        System.out.println(sale1);
+        System.out.println(sale2);
+
+        // 8. Done
+        System.out.println();
+        System.out.println("=== PROGRAM COMPLETE ===");
     }
 }

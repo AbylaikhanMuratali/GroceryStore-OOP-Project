@@ -1,11 +1,10 @@
 public class Product {
-    // 4 FIELDS
     private String productId;
     private String name;
     private double price;
     private int stockQuantity;
 
-    // CONSTRUCTOR WITH 4 PARAMETERS
+    // Constructor
     public Product(String productId, String name, double price, int stockQuantity) {
         this.productId = productId;
         this.name = name;
@@ -13,19 +12,19 @@ public class Product {
         this.stockQuantity = stockQuantity;
     }
 
-    // GETTERS for all 4 fields
+    // Getters
     public String getProductId() { return productId; }
     public String getName() { return name; }
     public double getPrice() { return price; }
     public int getStockQuantity() { return stockQuantity; }
 
-    // SETTERS for all 4 fields
+    // Setters
     public void setProductId(String productId) { this.productId = productId; }
     public void setName(String name) { this.name = name; }
     public void setPrice(double price) { this.price = price; }
     public void setStockQuantity(int stockQuantity) { this.stockQuantity = stockQuantity; }
 
-    // 2 METHODS
+    // 2 Methods
     public boolean isInStock() {
         return stockQuantity > 0;
     }
@@ -37,7 +36,6 @@ public class Product {
 
     // toString()
     public String toString() {
-        return "Product[ID=" + productId + ", Name=" + name +
-                ", Price=$" + price + ", Stock=" + stockQuantity + "]";
+        return "Product: " + name + " (" + productId + ") - " + price + "tg - Stock: " + stockQuantity;
     }
 }
