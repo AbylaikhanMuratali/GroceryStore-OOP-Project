@@ -1,82 +1,161 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Main {
+    private static ArrayList<Product> allProducts = new ArrayList<>();
+    private static ArrayList<Customer> customers = new ArrayList<>();
+    private static ArrayList<Sale> sales = new ArrayList<>();
+    private static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
+        // Add test data
+        allProducts.add(new Product("P001", "Generic Item", 5.0, 100));
+        allProducts.add(new FreshProduct("P002", "Apple", 2.0, 50, "2024-04-30", true));
+        allProducts.add(new PackagedProduct("P003", "Chips", 3.0, 80, "Lays", 0.2));
 
-        System.out.println("=== GROCERY STORE MANAGEMENT ===");
-        System.out.println();
+        customers.add(new Customer("C001", "John", 200.0, "john@email.com"));
+        sales.add(new Sale("S001", "John", 15.99, "2024-03-25", "Completed"));
 
-        // objects
-        Product apple = new Product("P100", "Apple", 1.99, 100);
-        Product milk = new Product("P101", "Milk", 3.49, 50);
-        Product bread = new Product("P102", "Bread", 2.99, 40);
+        boolean running = true;
 
-        Customer john = new Customer("C100", "John", 200.0, "john@email.com");
-        Customer jane = new Customer("C101", "Jane", 600.0, "jane@email.com");
+        while (running) {
+            System.out.println("\n=== GROCERY STORE ===");
+            System.out.println("1. Add Product");
+            System.out.println("2. Add Fresh Product");
+            System.out.println("3. Add Packaged Product");
+            System.out.println("4. View All Products");
+            System.out.println("5. Show Polymorphism");
+            System.out.println("6. View Fresh Only");
+            System.out.println("7. View Packaged Only");
+            System.out.println("8. Exit");
+            System.out.print("Choice: ");
 
-        Sale sale1 = new Sale("S100", "John", 0.0, "2024-03-25", "Pending");
-        Sale sale2 = new Sale("S101", "Jane", 0.0, "2024-03-26", "Pending");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
 
-        // show objects
-        System.out.println("--- ALL OBJECTS ---");
-        System.out.println(apple);
-        System.out.println(milk);
-        System.out.println(bread);
-        System.out.println(john);
-        System.out.println(jane);
-        System.out.println(sale1);
-        System.out.println(sale2);
-        System.out.println();
+            switch (choice) {
+                case 1: addProduct(); break;
+                case 2: addFreshProduct(); break;
+                case 3: addPackagedProduct(); break;
+                case 4: viewAllProducts(); break;
+                case 5: showPolymorphism(); break;
+                case 6: viewFreshOnly(); break;
+                case 7: viewPackagedOnly(); break;
+                case 8: running = false; break;
+            }
+        }
+        scanner.close();
+    }
 
-        // test getters
-        System.out.println("--- GETTERS ---");
-        System.out.println("Apple price: " + apple.getPrice() + "tg");
-        System.out.println("Milk stock: " + milk.getStockQuantity());
-        System.out.println("John's email: " + john.getEmail());
-        System.out.println("Sale 1 date: " + sale1.getDate());
-        System.out.println();
+    private static void addProduct() {
+        System.out.print("Product ID: ");
+        String id = scanner.nextLine();
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Price: ");
+        double price = scanner.nextDouble();
+        System.out.print("Stock: ");
+        int stock = scanner.nextInt();
+        scanner.nextLine();
 
-        // test settes
-        System.out.println("--- SETTERS ---");
-        apple.setPrice(2.49);
-        john.setName("John Smith");
-        sale1.setDate("2024-03-27");
-        System.out.println("Updated apple: " + apple);
-        System.out.println("Updated john: " + john);
-        System.out.println("Updated sale1: " + sale1);
-        System.out.println();
+        allProducts.add(new Product(id, name, price, stock));
+        System.out.println("Product added!");
+    }
 
-        // test methods
-        System.out.println("--- METHODS ---");
+    private static void addFreshProduct() {
+        System.out.print("Product ID: ");
+        String id = scanner.nextLine();
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Price: ");
+        double price = scanner.nextDouble();
+        System.out.print("Stock: ");
+        int stock = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Expiry Date (YYYY-MM-DD): ");
+        String expiry = scanner.nextLine();
+        System.out.print("Organic? (true/false): ");
+        boolean organic = scanner.nextBoolean();
+        scanner.nextLine();
 
-        // product method
-        System.out.println("Is bread in stock? " + bread.isInStock());
-        milk.applyDiscount(10);
-        System.out.println("Milk after 10% discount: " + milk.getPrice() + "tg");
+        allProducts.add(new FreshProduct(id, name, price, stock, expiry, organic));
+        System.out.println("Fresh product added!");
+    }
 
-        // customer methods
-        john.addPurchase(100.0);
-        System.out.println("Is John VIP? " + john.isVIP());
-        System.out.println("Is Jane VIP? " + jane.isVIP());
+    private static void addPackagedProduct() {
+        System.out.print("Product ID: ");
+        String id = scanner.nextLine();
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Price: ");
+        double price = scanner.nextDouble();
+        System.out.print("Stock: ");
+        int stock = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Manufacturer: ");
+        String manufacturer = scanner.nextLine();
+        System.out.print("Weight (kg): ");
+        double weight = scanner.nextDouble();
+        scanner.nextLine();
 
-        // sale methods
-        sale1.addItem(apple.getPrice());
-        sale1.addItem(milk.getPrice());
-        sale1.completeSale();
+        allProducts.add(new PackagedProduct(id, name, price, stock, manufacturer, weight));
+        System.out.println("Packaged product added!");
+    }
 
-        sale2.addItem(15.0);
-        sale2.addItem(8.5);
+    private static void viewAllProducts() {
+        System.out.println("\n=== ALL PRODUCTS ===");
+        if (allProducts.isEmpty()) {
+            System.out.println("No products.");
+            return;
+        }
 
-        // 7. final output
-        System.out.println();
-        System.out.println("--- FINAL STATE ---");
-        System.out.println(apple);
-        System.out.println(milk);
-        System.out.println(bread);
-        System.out.println(john);
-        System.out.println(jane);
-        System.out.println(sale1);
-        System.out.println(sale2);
+        for (int i = 0; i < allProducts.size(); i++) {
+            System.out.println((i+1) + ". " + allProducts.get(i));
+        }
+    }
 
-        System.out.println();
-        System.out.println("=== PROGRAM COMPLETE ===");
+    private static void showPolymorphism() {
+        System.out.println("\n=== POLYMORPHISM DEMO ===");
+        System.out.println("Calling toString() on all products:");
+
+        for (Product p : allProducts) {
+            System.out.println("- " + p);
+        }
+
+        System.out.println("\nSame toString() method, different output!");
+    }
+
+    private static void viewFreshOnly() {
+        System.out.println("\n=== FRESH PRODUCTS ===");
+        int count = 0;
+
+        for (Product p : allProducts) {
+            if (p instanceof FreshProduct) {
+                count++;
+                FreshProduct fresh = (FreshProduct) p;
+                System.out.println(count + ". " + fresh.getName() + " - Expires: " + fresh.getExpiryDate());
+            }
+        }
+
+        if (count == 0) {
+            System.out.println("No fresh products.");
+        }
+    }
+
+    private static void viewPackagedOnly() {
+        System.out.println("\n=== PACKAGED PRODUCTS ===");
+        int count = 0;
+
+        for (Product p : allProducts) {
+            if (p instanceof PackagedProduct) {
+                count++;
+                PackagedProduct pack = (PackagedProduct) p;
+                System.out.println(count + ". " + pack.getName() + " - Manufacturer: " + pack.getManufacturer());
+            }
+        }
+
+        if (count == 0) {
+            System.out.println("No packaged products.");
+        }
     }
 }

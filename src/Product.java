@@ -1,41 +1,33 @@
 public class Product {
-    private String productId;
-    private String name;
-    private double price;
-    private int stockQuantity;
+    protected String productId;
+    protected String name;
+    protected double price;
+    protected int stock;
 
-    // Constructor
-    public Product(String productId, String name, double price, int stockQuantity) {
+    public Product(String productId, String name, double price, int stock) {
         this.productId = productId;
         this.name = name;
         this.price = price;
-        this.stockQuantity = stockQuantity;
+        this.stock = stock;
     }
 
-    // Getters
     public String getProductId() { return productId; }
     public String getName() { return name; }
     public double getPrice() { return price; }
-    public int getStockQuantity() { return stockQuantity; }
+    public int getStock() { return stock; }
 
-    // Setters
-    public void setProductId(String productId) { this.productId = productId; }
-    public void setName(String name) { this.name = name; }
-    public void setPrice(double price) { this.price = price; }
-    public void setStockQuantity(int stockQuantity) { this.stockQuantity = stockQuantity; }
-
-    // 2 Methods
-    public boolean isInStock() {
-        return stockQuantity > 0;
+    public String getProductType() {
+        return "General Product";
     }
 
     public void applyDiscount(double percent) {
-        double discount = price * (percent / 100);
-        price = price - discount;
+        if (percent > 0 && percent <= 100) {
+            price = price - (price * percent / 100);
+        }
     }
 
-    // toString()
+    @Override
     public String toString() {
-        return "Product: " + name + " (" + productId + ") - " + price + "tg - Stock: " + stockQuantity;
+        return "[" + getProductType() + "] " + name + " - " + price + "tg";
     }
 }
