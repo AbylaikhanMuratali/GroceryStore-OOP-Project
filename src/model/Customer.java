@@ -1,3 +1,5 @@
+package model;
+
 public class Customer {
     private String customerId;
     private String name;
@@ -17,41 +19,35 @@ public class Customer {
     public String getEmail() { return email; }
 
     public void setCustomerId(String customerId) {
-        if (customerId != null && !customerId.trim().isEmpty()) {
-            this.customerId = customerId;
+        if (customerId == null || customerId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Customer ID cannot be empty!");
         }
+        this.customerId = customerId;
     }
 
     public void setName(String name) {
-        if (name != null && !name.trim().isEmpty()) {
-            this.name = name;
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Customer name cannot be empty!");
         }
+        this.name = name;
     }
 
     public void setTotalPurchases(double totalPurchases) {
-        if (totalPurchases >= 0) {
-            this.totalPurchases = totalPurchases;
+        if (totalPurchases < 0) {
+            throw new IllegalArgumentException("Total purchases cannot be negative!");
         }
+        this.totalPurchases = totalPurchases;
     }
 
     public void setEmail(String email) {
-        if (email != null && email.contains("@")) {
-            this.email = email;
+        if (email == null || !email.contains("@")) {
+            throw new IllegalArgumentException("Email must contain @!");
         }
-    }
-
-    public void addPurchase(double amount) {
-        if (amount > 0) {
-            totalPurchases += amount;
-        }
-    }
-
-    public boolean isVIP() {
-        return totalPurchases > 500;
+        this.email = email;
     }
 
     @Override
     public String toString() {
-        return name + " - Spent: " + totalPurchases + "tg";
+        return getName() + " - Spent: " + totalPurchases + "tg";
     }
 }
