@@ -3,7 +3,7 @@ package database;
 import model.Customer;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;  // ← ADD THIS LINE!
+import java.util.List;
 import java.util.Scanner;
 
 public class CustomerDAO {
