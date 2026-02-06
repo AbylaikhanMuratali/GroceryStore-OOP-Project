@@ -8,11 +8,6 @@ import java.util.Scanner;
 
 public class CustomerDAO {
 
-    // ============ WEEK 7 METHODS (Already have) ============
-
-    /**
-     * INSERT a customer into the database
-     */
     public void insertCustomer(Customer customer) {
         String sql = "INSERT INTO customer (customer_id, name, total_purchases, email) VALUES (?, ?, ?, ?)";
 
@@ -39,9 +34,6 @@ public class CustomerDAO {
         }
     }
 
-    /**
-     * SELECT all customers from database
-     */
     public void getAllCustomers() {
         String sql = "SELECT * FROM customer ORDER BY customer_id";
 
@@ -78,16 +70,6 @@ public class CustomerDAO {
         }
     }
 
-    // ============ WEEK 8 NEW METHODS ============
-
-    /**
-     * 1. UPDATE - Modify existing customer
-     * @param customerId Which customer to update
-     * @param newName New name (or null to keep)
-     * @param newTotal New total purchases (or -1 to keep)
-     * @param newEmail New email (or null to keep)
-     * @return true if successful
-     */
     public boolean updateCustomer(String customerId, String newName, double newTotal, String newEmail) {
         // First, get current customer data
         Customer current = getCustomerById(customerId);
@@ -96,7 +78,6 @@ public class CustomerDAO {
             return false;
         }
 
-        // Use current values if new ones are not provided
         String nameToUse = (newName == null || newName.trim().isEmpty()) ? current.getName() : newName;
         double totalToUse = (newTotal < 0) ? current.getTotalPurchases() : newTotal;
         String emailToUse = (newEmail == null || newEmail.trim().isEmpty()) ? current.getEmail() : newEmail;
@@ -128,11 +109,6 @@ public class CustomerDAO {
         return false;
     }
 
-    /**
-     * 2. DELETE - Remove customer (with safety)
-     * @param customerId Which customer to delete
-     * @return true if successful
-     */
     public boolean deleteCustomer(String customerId) {
         // Safety: Show what will be deleted
         Customer customer = getCustomerById(customerId);
@@ -182,11 +158,6 @@ public class CustomerDAO {
         return false;
     }
 
-    /**
-     * 3. SEARCH by Name (case-insensitive, partial match)
-     * @param searchName Name or part of name to search
-     * @return List of matching customers
-     */
     public List<Customer> searchByName(String searchName) {
         List<Customer> results = new ArrayList<>();
         String sql = "SELECT * FROM customer WHERE LOWER(name) LIKE LOWER(?) ORDER BY name";
@@ -224,12 +195,6 @@ public class CustomerDAO {
         return results;
     }
 
-    /**
-     * 4. SEARCH by Purchase Range
-     * @param min Minimum purchase amount
-     * @param max Maximum purchase amount
-     * @return List of customers in range
-     */
     public List<Customer> searchByPurchaseRange(double min, double max) {
         List<Customer> results = new ArrayList<>();
         String sql = "SELECT * FROM customer WHERE total_purchases BETWEEN ? AND ? ORDER BY total_purchases DESC";
@@ -267,11 +232,6 @@ public class CustomerDAO {
         return results;
     }
 
-    /**
-     * 5. SEARCH by Minimum Purchase
-     * @param minSalary Minimum purchase amount
-     * @return List of customers spending at least minSalary
-     */
     public List<Customer> searchByMinPurchase(double minPurchase) {
         List<Customer> results = new ArrayList<>();
         String sql = "SELECT * FROM customer WHERE total_purchases >= ? ORDER BY total_purchases DESC";
@@ -308,9 +268,6 @@ public class CustomerDAO {
         return results;
     }
 
-    /**
-     * Helper: Get customer by ID (used in UPDATE/DELETE)
-     */
     private Customer getCustomerById(String customerId) {
         String sql = "SELECT * FROM customer WHERE customer_id = ?";
 
@@ -343,9 +300,6 @@ public class CustomerDAO {
         return null;
     }
 
-    /**
-     * Display a list of customers (for search results)
-     */
     public void displayCustomerList(List<Customer> customers) {
         if (customers.isEmpty()) {
             System.out.println("No customers to display.");
