@@ -122,7 +122,6 @@ public class CustomerDAO {
         System.out.println("Email: " + customer.getEmail());
         System.out.print("Are you sure? (yes/no): ");
 
-        // Check confirmation
         Scanner scanner = new Scanner(System.in);
         String confirmation = scanner.nextLine().trim().toLowerCase();
 
@@ -131,7 +130,6 @@ public class CustomerDAO {
             return false;
         }
 
-        // Proceed with deletion
         String sql = "DELETE FROM customer WHERE customer_id = ?";
 
         Connection connection = DatabaseConnection.getConnection();
