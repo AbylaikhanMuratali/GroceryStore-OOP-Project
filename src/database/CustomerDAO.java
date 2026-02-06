@@ -27,7 +27,7 @@ public class CustomerDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("❌ Insert failed: " + e.getMessage());
+            System.out.println(" Insert failed: " + e.getMessage());
         } finally {
             try { if (statement != null) statement.close(); } catch (Exception e) {}
             DatabaseConnection.closeConnection(connection);
