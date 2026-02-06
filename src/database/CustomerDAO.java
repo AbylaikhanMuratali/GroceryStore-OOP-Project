@@ -71,7 +71,6 @@ public class CustomerDAO {
     }
 
     public boolean updateCustomer(String customerId, String newName, double newTotal, String newEmail) {
-        // First, get current customer data
         Customer current = getCustomerById(customerId);
         if (current == null) {
             System.out.println("❌ Customer not found: " + customerId);
@@ -110,7 +109,6 @@ public class CustomerDAO {
     }
 
     public boolean deleteCustomer(String customerId) {
-        // Safety: Show what will be deleted
         Customer customer = getCustomerById(customerId);
         if (customer == null) {
             System.out.println("❌ Customer not found: " + customerId);
