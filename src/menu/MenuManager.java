@@ -1,9 +1,11 @@
 package menu;
 
 import model.*;
+import database.CustomerDAO;  // NEW IMPORT
 import exception.InvalidInputException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.List;
 
 public class MenuManager implements Menu {
     private ArrayList<Product> products;
@@ -49,9 +51,15 @@ public class MenuManager implements Menu {
         System.out.println("4. Show Abstract Method");
         System.out.println("5. Test Sellable Interface");
         System.out.println("6. Add Customer");
-        System.out.println("7. View Customers");
+        System.out.println("7. View Customers (Memory)");
         System.out.println("8. Add Sale");
         System.out.println("9. View Sales");
+        System.out.println("10. View Customers (Database)");
+        System.out.println("11. Update Customer");      // NEW
+        System.out.println("12. Delete Customer");      // NEW
+        System.out.println("13. Search Customer by Name"); // NEW
+        System.out.println("14. Search by Purchase Range"); // NEW
+        System.out.println("15. Search High Spenders");   // NEW
         System.out.println("0. Exit");
         System.out.print("Choice: ");
     }
@@ -76,6 +84,12 @@ public class MenuManager implements Menu {
                     case 7: viewCustomers(); break;
                     case 8: addSale(); break;
                     case 9: viewSales(); break;
+                    case 10: viewCustomersFromDatabase(); break;
+                    case 11: updateCustomer(); break;          // NEW
+                    case 12: deleteCustomer(); break;          // NEW
+                    case 13: searchCustomerByName(); break;    // NEW
+                    case 14: searchByPurchaseRange(); break;   // NEW
+                    case 15: searchHighSpenders(); break;      // NEW
                     case 0:
                         System.out.println("Goodbye!");
                         running = false;
@@ -89,8 +103,8 @@ public class MenuManager implements Menu {
                 System.out.println("Error: " + e.getMessage());
             }
 
-            if (running && !scanner.hasNextLine()) {
-                System.out.println("\nPress Enter...");
+            if (running) {
+                System.out.println("\nPress Enter to continue...");
                 scanner.nextLine();
             }
         }
@@ -107,6 +121,104 @@ public class MenuManager implements Menu {
 
         for (int i = 0; i < products.size(); i++) {
             System.out.println((i+1) + ". " + products.get(i));
+        }
+    }
+
+    // 11. Update Customer
+    private void updateCustomer() {
+        System.out.println("\n--- UPDATE CUSTOMER ---");
+
+        try {
+            System.out.print("Enter Customer ID to update: ");
+            String customerId = scanner.nextLine();
+
+            CustomerDAO dao = new CustomerDAO();
+
+            // Ask for new values (press Enter to keep current)
+            System.out.print("New Name (press Enter to keep current): ");
+            String newName = scanner.nextLine();
+
+            System.out.print("New Total Purchases (press Enter to keep, or enter new amount): ");
+            String totalInput = scanner.nextLine();
+            double newTotal = -1; // -1 means "keep current"
+            if (!totalInput.trim().isEmpty()) {
+                newTotal = Double.parseDouble(totalInput);
+            }
+
+            System.out.print("New Email (press Enter to keep current): ");
+            String newEmail = scanner.nextLine();
+
+            // Perform update
+            boolean success = dao.updateCustomer(customerId, newName, newTotal, newEmail);
+
+            if (success) {
+                System.out.println("✅ Customer updated successfully!");
+            } else {
+                System.out.println("❌ Update failed. Customer may not exist.");
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Invalid number format!");
+        }
+    }
+
+    // 12. Delete Customer
+    private void deleteCustomer() {
+        System.out.println("\n--- DELETE CUSTOMER ---");
+
+        System.out.print("Enter Customer ID to delete: ");
+        String customerId = scanner.nextLine();
+
+        CustomerDAO dao = new CustomerDAO();
+        dao.deleteCustomer(customerId); // Has built-in confirmation
+    }
+
+    // 13. Search Customer by Name
+    private void searchCustomerByName() {
+        System.out.println("\n--- SEARCH CUSTOMER BY NAME ---");
+
+        System.out.print("Enter name or part of name: ");
+        String searchName = scanner.nextLine();
+
+        CustomerDAO dao = new CustomerDAO();
+        List<Customer> results = dao.searchByName(searchName);
+        dao.displayCustomerList(results);
+    }
+
+    // 14. Search by Purchase Range
+    private void searchByPurchaseRange() {
+        System.out.println("\n--- SEARCH BY PURCHASE RANGE ---");
+
+        try {
+            System.out.print("Minimum purchase amount: ");
+            double min = Double.parseDouble(scanner.nextLine());
+
+            System.out.print("Maximum purchase amount: ");
+            double max = Double.parseDouble(scanner.nextLine());
+
+            CustomerDAO dao = new CustomerDAO();
+            List<Customer> results = dao.searchByPurchaseRange(min, max);
+            dao.displayCustomerList(results);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Invalid number!");
+        }
+    }
+
+    // 15. Search High Spenders
+    private void searchHighSpenders() {
+        System.out.println("\n--- SEARCH HIGH SPENDERS ---");
+
+        try {
+            System.out.print("Minimum purchase amount (e.g., 500): ");
+            double min = Double.parseDouble(scanner.nextLine());
+
+            CustomerDAO dao = new CustomerDAO();
+            List<Customer> results = dao.searchByMinPurchase(min);
+            dao.displayCustomerList(results);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Invalid number!");
         }
     }
 
@@ -134,7 +246,7 @@ public class MenuManager implements Menu {
 
             FreshProduct fresh = new FreshProduct(id, name, price, stock, expiry, organic);
             products.add(fresh);
-            System.out.println("Added!");
+            System.out.println("✅ Added!");
 
         } catch (NumberFormatException e) {
             System.out.println("Error: Invalid number!");
@@ -165,7 +277,7 @@ public class MenuManager implements Menu {
 
             PackagedProduct packaged = new PackagedProduct(id, name, price, stock, manufacturer, weight);
             products.add(packaged);
-            System.out.println("Added!");
+            System.out.println("✅ Added!");
 
         } catch (NumberFormatException e) {
             System.out.println("Error: Invalid number!");
@@ -197,6 +309,7 @@ public class MenuManager implements Menu {
         System.out.println("No FreshProduct found!");
     }
 
+    // MODIFIED: Now saves to database too
     private void addCustomer() {
         System.out.println("\n--- ADD CUSTOMER ---");
 
@@ -213,9 +326,17 @@ public class MenuManager implements Menu {
             System.out.print("Email: ");
             String email = scanner.nextLine();
 
+            // Create customer object
             Customer customer = new Customer(id, name, total, email);
+
+            // Save to memory (ArrayList)
             customers.add(customer);
-            System.out.println("Added!");
+            System.out.println("✅ Saved to memory");
+
+            // NEW: Save to database
+            CustomerDAO dao = new CustomerDAO();
+            dao.insertCustomer(customer);
+            System.out.println("✅ Saved to database");
 
         } catch (NumberFormatException e) {
             System.out.println("Error: Invalid number!");
@@ -223,15 +344,22 @@ public class MenuManager implements Menu {
     }
 
     private void viewCustomers() {
-        System.out.println("\n=== CUSTOMERS ===");
+        System.out.println("\n=== CUSTOMERS (FROM MEMORY) ===");
         if (customers.isEmpty()) {
-            System.out.println("No customers.");
+            System.out.println("No customers in memory.");
             return;
         }
 
         for (int i = 0; i < customers.size(); i++) {
             System.out.println((i+1) + ". " + customers.get(i));
         }
+    }
+
+    // NEW METHOD: View from database
+    private void viewCustomersFromDatabase() {
+        System.out.println("\n=== CUSTOMERS (FROM DATABASE) ===");
+        CustomerDAO dao = new CustomerDAO();
+        dao.getAllCustomers();
     }
 
     private void addSale() {
@@ -255,7 +383,7 @@ public class MenuManager implements Menu {
 
             Sale sale = new Sale(id, name, total, date, status);
             sales.add(sale);
-            System.out.println("Added!");
+            System.out.println("✅ Added!");
 
         } catch (NumberFormatException e) {
             System.out.println("Error: Invalid number!");
