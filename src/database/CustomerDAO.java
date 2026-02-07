@@ -165,7 +165,7 @@ public class CustomerDAO {
 
         try {
             statement = connection.prepareStatement(sql);
-            statement.setString(1, "%" + searchName + "%"); // Search anywhere in name
+            statement.setString(1, "%" + searchName + "%");
 
             resultSet = statement.executeQuery();
 
