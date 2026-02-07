@@ -157,7 +157,6 @@ public class CustomerDAO {
     public List<Customer> searchByName(String searchName) {
         List<Customer> results = new ArrayList<>();
         String sql = "SELECT * FROM customer WHERE LOWER(name) LIKE LOWER(?) ORDER BY name";
-        // LOWER() makes it case-insensitive, % = wildcard
 
         Connection connection = DatabaseConnection.getConnection();
         PreparedStatement statement = null;
