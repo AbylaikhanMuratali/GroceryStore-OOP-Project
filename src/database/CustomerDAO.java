@@ -10,21 +10,20 @@ public class CustomerDAO {
 
     // 1. INSERT - 14 lines (Same functionality)
     public void insertCustomer(Customer customer) {
-        String sql = "INSERT INTO customer VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO customer VALUES (?,?,?,?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
+        PreparedStatement stmt= conn.prepareStatement(sql)){
             stmt.setString(1, customer.getCustomerId());
             stmt.setString(2, customer.getName());
             stmt.setDouble(3, customer.getTotalPurchases());
             stmt.setString(4, customer.getEmail());
 
             stmt.executeUpdate();
-            System.out.println("✅ Customer saved!");
-
-        } catch (SQLException e) {
-            System.out.println("❌ Insert failed: " + e.getMessage());
+            System.out.println("saved");
+        }catch (SQLException e){
+            System.out.println("failed" + e.getMessage()
+            );
         }
     }
 
@@ -52,18 +51,7 @@ public class CustomerDAO {
     }
 
     // 3. UPDATE - 16 lines (with null checks simplified)
-    public boolean updateCustomer(String id, String newName, double newTotal, String newEmail) {
-        Customer current = getCustomerById(id);
-        if (current == null) {
-            System.out.println("❌ Customer not found!");
-            return false;
-        }
-
-        // Use new values or keep old ones
-        String name = (newName.isEmpty()) ? current.getName() : newName;
-        double total = (newTotal < 0) ? current.getTotalPurchases() : newTotal;
-        String email = (newEmail.isEmpty()) ? current.getEmail() : newEmail;
-
+    public boolean updateCustomer(String id, String name, double total, String email) {
         String sql = "UPDATE customer SET name=?, total_purchases=?, email=? WHERE customer_id=?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -75,38 +63,16 @@ public class CustomerDAO {
             stmt.setString(4, id);
 
             int rows = stmt.executeUpdate();
-            if (rows > 0) {
-                System.out.println("✅ Customer updated!");
-                return true;
-            }
+            return rows > 0;
 
         } catch (SQLException e) {
             System.out.println("❌ Update failed: " + e.getMessage());
+            return false;
         }
-        return false;
     }
 
     // 4. DELETE - 22 lines (with confirmation)
     public boolean deleteCustomer(String customerId) {
-        Customer customer = getCustomerById(customerId);
-        if (customer == null) {
-            System.out.println("❌ Customer not found!");
-            return false;
-        }
-
-        System.out.println("\n⚠️ WILL DELETE:");
-        System.out.println("ID: " + customer.getCustomerId());
-        System.out.println("Name: " + customer.getName());
-        System.out.print("Are you sure? (yes/no): ");
-
-        Scanner scanner = new Scanner(System.in);
-        String answer = scanner.nextLine();
-
-        if (!answer.equalsIgnoreCase("yes")) {
-            System.out.println("❌ Delete cancelled");
-            return false;
-        }
-
         String sql = "DELETE FROM customer WHERE customer_id=?";
 
         try (Connection conn = DatabaseConnection.getConnection();
