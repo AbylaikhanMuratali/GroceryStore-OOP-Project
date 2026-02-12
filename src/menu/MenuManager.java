@@ -53,7 +53,7 @@ public class MenuManager implements Menu {
 
     @Override
     public void startMenu() {
-        while (true) {
+         while (true) {
             showMenu();
             String input = scanner.nextLine();
 
