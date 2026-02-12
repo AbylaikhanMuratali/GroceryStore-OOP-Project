@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class CustomerDAO {
 
-    // 1. INSERT - 14 lines (Same functionality)
+    // 1. INSERT
     public void insertCustomer(Customer customer) {
         String sql = "INSERT INTO customer VALUES (?,?,?,?)";
 
@@ -27,7 +27,7 @@ public class CustomerDAO {
         }
     }
 
-    // 2. GET ALL - 18 lines
+    // 2. GET ALl
     public void getAllCustomers() {
         String sql = "SELECT * FROM customer ORDER BY customer_id";
 
@@ -50,7 +50,7 @@ public class CustomerDAO {
         }
     }
 
-    // 3. UPDATE - 16 lines (with null checks simplified)
+    // 3. UPDATE
     public boolean updateCustomer(String id, String name, double total, String email) {
         String sql = "UPDATE customer SET name=?, total_purchases=?, email=? WHERE customer_id=?";
 
@@ -71,7 +71,7 @@ public class CustomerDAO {
         }
     }
 
-    // 4. DELETE - 22 lines (with confirmation)
+    // 4. DELETE
     public boolean deleteCustomer(String customerId) {
         String sql = "DELETE FROM customer WHERE customer_id=?";
 
@@ -92,7 +92,7 @@ public class CustomerDAO {
         return false;
     }
 
-    // 5. SEARCH BY NAME - 15 lines
+    // 5. SEARCH BY NAME
     public List<Customer> searchByName(String searchName) {
         List<Customer> results = new ArrayList<>();
         String sql = "SELECT * FROM customer WHERE LOWER(name) LIKE LOWER(?) ORDER BY name";
@@ -120,7 +120,7 @@ public class CustomerDAO {
         return results;
     }
 
-    // 6. SEARCH BY PURCHASE RANGE - 16 lines
+    // 6. SEARCH BY PURCHASE RANGE
     public List<Customer> searchByPurchaseRange(double min, double max) {
         List<Customer> results = new ArrayList<>();
         String sql = "SELECT * FROM customer WHERE total_purchases BETWEEN ? AND ? ORDER BY total_purchases DESC";
@@ -149,7 +149,7 @@ public class CustomerDAO {
         return results;
     }
 
-    // 7. SEARCH BY MIN PURCHASE - 15 lines
+    // 7. SEARCH BY MIN PURCHASE
     public List<Customer> searchByMinPurchase(double minPurchase) {
         List<Customer> results = new ArrayList<>();
         String sql = "SELECT * FROM customer WHERE total_purchases >= ? ORDER BY total_purchases DESC";
@@ -177,7 +177,7 @@ public class CustomerDAO {
         return results;
     }
 
-    // 8. GET CUSTOMER BY ID (private) - 14 lines
+    // 8. GET CUSTOMER BY ID
     private Customer getCustomerById(String customerId) {
         String sql = "SELECT * FROM customer WHERE customer_id = ?";
 
@@ -202,7 +202,7 @@ public class CustomerDAO {
         return null;
     }
 
-    // 9. DISPLAY LIST - 10 lines
+    // 9. DISPLAY LIST
     public void displayCustomerList(List<Customer> customers) {
         if (customers.isEmpty()) {
             System.out.println("No customers to display.");
