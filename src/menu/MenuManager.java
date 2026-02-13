@@ -105,7 +105,7 @@ public class MenuManager implements Menu {
         }
     }
 
-    // 2. ADD FRESH PRODUCT - 12 lines
+    // 2. ADD FRESH PRODUCT
     private void addFreshProduct() {
         System.out.println("\n--- ADD FRESH PRODUCT ---");
 
@@ -123,7 +123,7 @@ public class MenuManager implements Menu {
         System.out.println("✅ Added!");
     }
 
-    // 3. ADD PACKAGED PRODUCT - 12 lines
+    // 3. ADD PACKAGED PRODUCT
     private void addPackagedProduct() {
         System.out.println("\n--- ADD PACKAGED PRODUCT ---");
 
@@ -141,7 +141,7 @@ public class MenuManager implements Menu {
         System.out.println("✅ Added!");
     }
 
-    // 4. SHOW ABSTRACT METHOD - 5 lines
+    // 4. SHOW ABSTRACT METHOD
     private void showAbstractMethod() {
         System.out.println("\n=== ABSTRACT METHOD ===");
         for (Product p : products) {
@@ -149,7 +149,7 @@ public class MenuManager implements Menu {
         }
     }
 
-    // 5. TEST SELLABLE INTERFACE - 7 lines
+    // 5. TEST SELLABLE INTERFACE
     private void testSellable() {
         System.out.println("\n=== SELLABLE INTERFACE ===");
         for (Product p : products) {
@@ -162,7 +162,7 @@ public class MenuManager implements Menu {
         }
     }
 
-    // 6. ADD CUSTOMER - 15 lines
+    // 6. ADD CUSTOMER
     private void addCustomer() {
         System.out.println("\n--- ADD CUSTOMER ---");
 
@@ -178,7 +178,7 @@ public class MenuManager implements Menu {
         System.out.println("✅ Saved to memory and database!");
     }
 
-    // 7. VIEW CUSTOMERS (MEMORY) - 8 lines
+    // 7. VIEW CUSTOMERS (MEMORY)
     private void viewCustomers() {
         System.out.println("\n=== CUSTOMERS (MEMORY) ===");
         for (int i = 0; i < customers.size(); i++) {
@@ -186,7 +186,7 @@ public class MenuManager implements Menu {
         }
     }
 
-    // 8. ADD SALE - 12 lines
+    // 8. ADD SALE
     private void addSale() {
         System.out.println("\n--- ADD SALE ---");
 
@@ -201,7 +201,7 @@ public class MenuManager implements Menu {
         System.out.println("✅ Added!");
     }
 
-    // 9. VIEW SALES - 8 lines
+    // 9. VIEW SALES
     private void viewSales() {
         System.out.println("\n=== SALES ===");
         for (int i = 0; i < sales.size(); i++) {
@@ -209,13 +209,13 @@ public class MenuManager implements Menu {
         }
     }
 
-    // 10. VIEW CUSTOMERS (DATABASE) - 3 lines
+    // 10. VIEW CUSTOMERS DATABASE
     private void viewCustomersFromDatabase() {
         System.out.println("\n=== CUSTOMERS (DATABASE) ===");
         customerDAO.getAllCustomers();
     }
 
-    // 11. UPDATE CUSTOMER - 14 lines
+    // 11. UPDATE CUSTOMER
     private void updateCustomer() {
         System.out.println("\n--- UPDATE CUSTOMER ---");
 
@@ -228,14 +228,14 @@ public class MenuManager implements Menu {
         customerDAO.updateCustomer(id, name, total, email);
     }
 
-    // 12. DELETE CUSTOMER - 3 lines
+    // 12. DELETE CUSTOMER
     private void deleteCustomer() {
         System.out.println("\n--- DELETE CUSTOMER ---");
         System.out.print("Customer ID: "); String id = scanner.nextLine();
         customerDAO.deleteCustomer(id);
     }
 
-    // 13. SEARCH BY NAME - 5 lines
+    // 13. SEARCH BY NAME
     private void searchCustomerByName() {
         System.out.println("\n--- SEARCH BY NAME ---");
         System.out.print("Enter name: "); String name = scanner.nextLine();
@@ -243,7 +243,7 @@ public class MenuManager implements Menu {
         customerDAO.displayCustomerList(results);
     }
 
-    // 14. SEARCH BY RANGE - 7 lines
+    // 14. SEARCH BY RANGE
     private void searchByPurchaseRange() {
         System.out.println("\n--- SEARCH BY RANGE ---");
         System.out.print("Min amount: "); double min = scanner.nextDouble();
@@ -254,7 +254,7 @@ public class MenuManager implements Menu {
         customerDAO.displayCustomerList(results);
     }
 
-    // 15. SEARCH HIGH SPENDERS - 5 lines
+    // 15. SEARCH HIGH SPENDERS
     private void searchHighSpenders() {
         System.out.println("\n--- SEARCH HIGH SPENDERS ---");
         System.out.print("Min purchase amount: "); double min = scanner.nextDouble();
